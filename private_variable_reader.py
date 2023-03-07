@@ -1,4 +1,5 @@
 from web3 import  Web3
+import re
 
 def read_contract(filename: str):
     with open(filename,'r') as read_smart_contract:
@@ -17,6 +18,7 @@ def read_contract(filename: str):
                     print("variable list:", variable_list)
 
     datatype= parse_datatype(variable_list)
+
     write_contract("TestConstant.sol",datatype)
 
 # Now list_of_lines variable is like this
@@ -44,9 +46,20 @@ def write_contract(filename: str, datatype: list):
             write_smart_contract.write(getter_method)
     write_smart_contract.close()
 
+def remove_last_bracket(filename):
+    with open(filename,'r') as read_smart_contract:
+       list_of_lines = read_smart_contract.read()
+       print(list_of_lines)
+       list_of_lines = list_of_lines.rstrip('}')
+       print("after:",list_of_lines)
+
+    # for lines in list_of_lines:
+    #     print(lines)
+    #pattern = re.sub(r"[}]", "", list_of_lines[-1])
 
 
 if __name__ == "__main__":
     read_contract("TestConstant.sol")
     #write_contract("TestConstant.sol","bytes32","BYTES")
     #parse_datatype([ "bytes32 public constant BYTES =\n'", "'\n'", "uint256 public someUint256 = 3;\n'" ])
+    #remove_last_bracket("TestConstant.sol")
